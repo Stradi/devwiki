@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 
 import prisma from "@/lib/prisma";
+import { fetchAPI } from "@/lib/util";
+import { API } from "@/types/api";
+import { Wiki } from "@prisma/client";
 
 interface WikiHomeProps {
   data: string;
@@ -12,23 +15,27 @@ const WikiHome: NextPage<WikiHomeProps> = (props) => {
   const router = useRouter();
   if(router.isFallback) {
     return (
-      <>Fallback</>
+      <>Loading...</>
     )
   }
 
-  const data = JSON.parse(props.data);
+  const data = JSON.parse(props.data) as Wiki;
   return (
-    <>Welcome to { data.name }.</>
+    <>
+      <h1>Welcome to { data.name }.</h1>
+      <p>This wiki is created at { data.createdAt }.</p>
+      <p>{ data.description }</p>
+    </>
   )
 }
 
 export default WikiHome;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const wikis = await prisma.wiki.findMany();
-
+  const response = await fetchAPI<API.Responses.GetAllWikis>("/wikis", "GET");
+  
   return {
-    paths: wikis.map(currentWiki => {
+    paths: response.data.map(currentWiki => {
       return { params: { wiki: currentWiki.slug }}
     }),
     fallback: true
