@@ -1,6 +1,9 @@
 import type { NextPage } from 'next'
 
-const Home: NextPage = () => {
+interface MyProp {
+  data: Response;
+}
+const Home: NextPage<MyProp> = () => {
   return (
     <>Hello World!</>
   )
