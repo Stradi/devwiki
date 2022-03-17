@@ -28,7 +28,7 @@ model Page {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  wiki Wiki @relation(fields: [wikiSlug], references: [slug])
+  wiki Wiki @relation(fields: [wikiSlug], references: [slug], onDelete: Cascade)
   wikiSlug String
 
   name String

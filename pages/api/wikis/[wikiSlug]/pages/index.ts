@@ -35,6 +35,7 @@ const handlePOST = (req: API.Requests.CreateNewPage, res: NextApiResponse): Prom
         data: {
           name: req.body.name,
           slug: req.body.slug,
+          source: req.body.source,
           wiki: {
             connect: {
               slug: wikiSlug
