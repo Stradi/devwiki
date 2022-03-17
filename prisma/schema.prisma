@@ -28,13 +28,13 @@ model Page {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  wiki Wiki @relation(fields: [wikiId], references: [id])
-  wikiId Int
+  wiki Wiki @relation(fields: [wikiSlug], references: [slug])
+  wikiSlug String
 
   name String
   slug String
   source String?
 
-  @@unique([wikiId, name], name: "pageIdentifier")
+  @@unique([wikiSlug, slug], name: "pageIdentifier")
   @@map("pages")
 }
