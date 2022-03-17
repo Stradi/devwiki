@@ -17,6 +17,13 @@ export const middleware = (req: NextRequest) => {
     return new Response(null, { status: 404 });
   }
 
+  // If request comes to a subdomain and path starts with api, for example
+  // subdomain.localhost:3000/api, just send 404.
+  // API routes should only be accessible from localhost:3000/api.
+  if(subdomain !== hostname && pathname.startsWith("/api")) {
+    return new Response(null, { status: 404 });
+  }
+
   // If current request comes to api route or client requests static
   // files such as image, favicon (those files have . in their pathname)
   // we should not alter or intercept response.
