@@ -22,8 +22,6 @@ const handleGET = (req: NextApiRequest, res: NextApiResponse): Promise<API.Respo
   });
 }
 
-// TODO: After creating wiki, we should also create a index page
-// for that wiki.
 const handlePOST = (req: API.Requests.CreateNewWiki, res: NextApiResponse): Promise<API.Responses.CreateNewWiki> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -31,7 +29,13 @@ const handlePOST = (req: API.Requests.CreateNewWiki, res: NextApiResponse): Prom
         data: {
           name: req.body.name,
           slug: req.body.slug,
-          description: req.body.description || undefined
+          description: req.body.description || undefined,
+          pages: {
+            create: {
+              name: "Index",
+              slug: "index"
+            }
+          }
         }
       });
       
