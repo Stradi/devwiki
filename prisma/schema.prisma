@@ -35,5 +35,6 @@ model Page {
   slug String
   source String?
 
+  @@unique([wikiId, name], name: "pageIdentifier")
   @@map("pages")
 }
